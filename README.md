@@ -9,10 +9,9 @@ Code for Africa (CfA) is the continent’s largest network of civic technology a
 
 # Repository structure
 
-* [Setting Environment]()
-* [Data Collection]()
-* [Data Analysis]()
-* [Account Profiling](https://medium.com/dfrlab/botspot-twelve-ways-to-spot-a-bot-aedc7d9c110c)
+* [Setting Environment](https://github.com/Gmusebe/Code4Africa#setting-environment)
+* [Data Collection](https://github.com/Gmusebe/Code4Africa#data-collection)
+* [Copyright and license](https://github.com/Gmusebe/Code4Africa#copyright-and-license)
 
 
 ## Setting Environment
@@ -82,5 +81,5 @@ Saving our data into a desired local file, the tool provides us with such kind o
 
 [_Click here_](https://github.com/Gmusebe/Code4Africa/tree/master/tool) To learn more about the tool. 
 
-## Copyright and license
+# Copyright and license
 The tool has been modified from the  [JustAnotherArchivist](https://github.com/JustAnotherArchivist/snscrape) repo.
