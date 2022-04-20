@@ -18,18 +18,15 @@ Code for Africa (CfA) is the continent’s largest network of civic technology a
 ## Setting Environment
 The packages required for development of our tools are set by importing them as follows:
 ```Python
-import tweepy
-import plotly
-import matplotlib
-import numpy as np
+import re
+import collections
 import pandas as pd
 import cufflinks as cf
 import plotly.offline as py
 from bs4 import BeautifulSoup
-import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
-import snscrape.modules.twitter as sntwitter
+
 from nltk.tokenize import WordPunctTokenizer
 
 token = WordPunctTokenizer()
@@ -46,27 +43,27 @@ Utilize the `snscrape` twitter data extraction tool to scrape tweets by __userna
 ```Python
 query = "State criteria of search"
 tweets = [] # Empty list 
-limit = 5000 # least number of tweets returned
+limit = 'limit(int)' # least number of tweets returned
 
-columns= ['datetime', 'user', 'username', 'tweet_id', 'tweet', 'tweet_url', 'hashtags',
-'likeCount', 'quoteCount', 'replyCoint', 'retweetCount','retweetedTweet', 'sourceUrl']
+# column headers
+columns= ['url', 'datetime', 'tweet', 'tweet_id', 'mentioned_user', 'user',
+          'username', 'display_name', 'user_id', 'if_verified', 'acc_created', 'hashtags', 
+          'likeCount', 'quoteCount', 'replyCount', 'retweetCount','retweetedTweet', 'source']
 
+# scrape function
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
-  
-  # print(vars(tweet))
-  # break
   if len(tweets) == limit:
     break
   else:
-    tweets.append([tweet.date, tweet.user, tweet.username,
-                  tweet.id, tweet.content, tweet.url, tweet.hashtags,
-                  tweet.likeCount, tweet.quoteCount, tweet.replyCount,
-                  tweet.retweetCount, tweet.retweetedTweet, tweet.sourceUrl])
+    tweets.append([tweet.url, tweet.date, tweet.content, tweet.id, tweet.mentionedUsers, tweet.user,
+                  tweet.user.username,tweet.user.displayname, tweet.user.id, tweet.user.verified, tweet.user.created, tweet.hashtags,
+                  tweet.likeCount, tweet.quoteCount, tweet.replyCount, tweet.retweetCount, tweet.retweetedTweet, tweet.source])
 
+# # tweets dataframe:
 df = pd.DataFrame(tweets, columns=columns)
 
-# Store Data:
-df.to_csv('/home/musebe/code/Code4Africa/data/RacistEU_tweets.csv')
+# Store csv data in zip:
+df.to_csv('/home/musebe/code/Code4Africa/data/RacistEU_tweets.csv.gz', compression='gzip')
 ```
 > The above tool has two major parameters:
 * __query__ :defines the search critea; whether a username, keyword/hashtags and date limits.
@@ -85,13 +82,5 @@ Saving our data into a desired local file, the tool provides us with such kind o
 
 [_Click here_](https://github.com/Gmusebe/Code4Africa/tree/master/tool) To learn more about the tool. 
 
-# Data Analysis
-
-```Python
-```
-> Context
-# [Account Profiling](https://medium.com/dfrlab/botspot-twelve-ways-to-spot-a-bot-aedc7d9c110c)
-```Python
-```
-> Context
 ## Copyright and license
+The tool has been modified from the  [JustAnotherArchivist](https://github.com/JustAnotherArchivist/snscrape) repo.
